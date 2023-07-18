@@ -1,0 +1,27 @@
+# Setting up a NFS Server
+# Step 1- update and Download Components
+sudo apt update
+sudo apt install nfs-kernel-server
+# Step 2- On the client server, you need to install a package called nfs-common
+sudo apt update
+sudo apt install nfs-common
+# Step-3 Creating the Share Directories on the Host
+sudo mkdir -p /mnt/share/
+mkdir -p /mnt/share/
+chown nobody:nogroup /mnt/share/
+ll /mnt/share/
+chmod 777 /mnt/share/
+ll /mnt/share/
+vi /etc/exportfs
+# the enter the below lines to give access to users
+/mnt/nfs_share/ *(rw,sync,no_subtree_check,no_root_squash)
+/mnt/share/ *(rw,sync,no_subtree_check,no_root_squash) # this is giving access to everyone
+/mnt/share/ 10.0.0.0/24(rw,sync,no_subtree_check,no_root_squash) # this gives access to those in the vpc and with the same ip-address
+# export the shared directory
+sudo exportfs -a
+# restart the nfs-kernel-server
+systemctl restart nfs-kernel-server
+# last Step open firewall for exernal clients to access the server port: 2049
+    # on the ClLUENT SERVER? SIDE, CONFIGURE THE NFS-SERVER WITH THE FOLLOWING COMMANDS
+sudo apt update
+sudo apt install nfs-common
